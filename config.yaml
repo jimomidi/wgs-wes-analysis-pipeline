@@ -1,0 +1,29 @@
+# Sample sheet: CSV with a sample_id column plus fastq_r1/fastq_r2.
+# WGS adds an optional control_bam column; WES adds an optional target_bed
+# column (falls back to the top-level target_bed below if blank/absent).
+samples: samples.csv
+
+reference_fasta: reference/genome.fasta
+threads: 4
+
+# WES only. Can be overridden per sample via a target_bed column in the
+# sample sheet.
+target_bed: capture_targets.bed
+
+# CNV calling (WGS only, see call_cnv.py).
+bin_size: 50000
+ploidy: 2
+gain_threshold_log2: 0.321928   # log2(1.25)
+loss_threshold_log2: -0.415037  # log2(0.75)
+min_segment_bins: 3
+
+# On-target coverage QC (WES only).
+coverage_depth_thresholds: [10, 20, 30]
+
+# ANNOVAR annotation is skipped unless humandb_dir is set here -- see
+# README for why it isn't bundled/required.
+annovar:
+  convert2annovar_script: ""
+  annotate_variation_script: ""
+  buildver: ""
+  humandb_dir: ""
